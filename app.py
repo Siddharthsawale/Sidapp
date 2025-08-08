@@ -16,25 +16,31 @@ from database_helper import db_helper
 import pickle
 from functools import wraps
 
-# Conditional imports for AI features
+# Conditional imports for AI features - with better error handling
+AI_DEPENDENCIES_AVAILABLE = False
 try:
-    import fitz
-    import pandas as pd
-    from pdfminer.high_level import extract_text
-    from sentence_transformers import SentenceTransformer
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    from sklearn.metrics.pairwise import cosine_similarity
-    import numpy as np
-    from langchain.schema import Document
-    from langchain.text_splitter import CharacterTextSplitter
-    from langchain_openai import AzureOpenAIEmbeddings, AzureChatOpenAI
-    from langchain_community.vectorstores import AzureSearch
-    from langchain.chains import ConversationalRetrievalChain
-    from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
-    AI_DEPENDENCIES_AVAILABLE = True
+    # Only import if we're in a development environment or if explicitly enabled
+    if os.environ.get('ENABLE_AI_FEATURES', 'false').lower() == 'true':
+        import fitz
+        import pandas as pd
+        from pdfminer.high_level import extract_text
+        from sentence_transformers import SentenceTransformer
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        from sklearn.metrics.pairwise import cosine_similarity
+        import numpy as np
+        from langchain.schema import Document
+        from langchain.text_splitter import CharacterTextSplitter
+        from langchain_openai import AzureOpenAIEmbeddings, AzureChatOpenAI
+        from langchain_community.vectorstores import AzureSearch
+        from langchain.chains import ConversationalRetrievalChain
+        from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
+        AI_DEPENDENCIES_AVAILABLE = True
+        print("✅ AI dependencies loaded successfully")
+    else:
+        print("ℹ️ AI features disabled by default in production")
 except ImportError as e:
-    print(f"Some AI dependencies are missing: {e}")
-    print("AI features will be disabled. Install requirements.txt for full functionality.")
+    print(f"⚠️ Some AI dependencies are missing: {e}")
+    print("ℹ️ AI features will be disabled. Install requirements.txt for full functionality.")
     AI_DEPENDENCIES_AVAILABLE = False
 
 # Load environment variables
@@ -56,8 +62,8 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 ats_initialized = False
 rag_initialized = False
 
-# Temporarily disable Azure initialization to get server running
-print("⚠️ Azure initialization temporarily disabled for server startup")
+print("🚀 Flask application starting up...")
+print(f"📊 AI Features Available: {AI_DEPENDENCIES_AVAILABLE}")
 
 # Role-based access control decorators
 def login_required(f):
