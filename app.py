@@ -1041,12 +1041,23 @@ def it_portal():
         {"service": "Database Server", "status": "Operational", "uptime": "99.9%"}
     ]
     
-    return render_template("it_portal.html", 
-                        tickets=it_tickets, 
-                        system_status=system_status,
-                        total_tickets=len(it_tickets),
-                        open_tickets=len([t for t in it_tickets if t.get("status") == "open"]),
-                        resolved_tickets=len([t for t in it_tickets if t.get("status") == "resolved"]))
+    # Use different templates based on user role
+    if session.get("role") == "employee":
+        # Employee IT Portal - use employee layout
+        return render_template("employee_portal/it_portal.html", 
+                            tickets=it_tickets, 
+                            system_status=system_status,
+                            total_tickets=len(it_tickets),
+                            open_tickets=len([t for t in it_tickets if t.get("status") == "open"]),
+                            resolved_tickets=len([t for t in it_tickets if t.get("status") == "resolved"]))
+    else:
+        # Admin/IT/HR IT Portal - use admin layout
+        return render_template("it_portal.html", 
+                            tickets=it_tickets, 
+                            system_status=system_status,
+                            total_tickets=len(it_tickets),
+                            open_tickets=len([t for t in it_tickets if t.get("status") == "open"]),
+                            resolved_tickets=len([t for t in it_tickets if t.get("status") == "resolved"]))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

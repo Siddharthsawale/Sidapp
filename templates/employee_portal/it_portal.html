@@ -1,0 +1,177 @@
+{% extends "employee_portal/layout.html" %}
+{% block content %}
+<div class="space-y-8">
+  <!-- Header Section -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-2">
+        IT Support Portal
+      </h1>
+      <p class="text-lg text-gray-600 dark:text-gray-300">
+        Get IT support, check system status, and submit technical requests
+      </p>
+    </div>
+    <div class="mt-4 sm:mt-0 flex gap-3 flex-wrap">
+      <a href="/submit-ticket" class="btn-primary">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        Submit Ticket
+      </a>
+      <a href="/tickets" class="btn-secondary">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+        My Tickets
+      </a>
+      <a href="/system-status" class="btn-success">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+        </svg>
+        System Status
+      </a>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Submit Ticket -->
+    <div class="bg-white/90 dark:bg-gray-900/90 p-6 rounded-xl shadow-lg backdrop-blur border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-3">
+          <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-gray-600 dark:text-gray-300">Submit Ticket</p>
+          <p class="text-sm text-gray-900 dark:text-white">Get IT support</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Tickets -->
+    <div class="bg-white/90 dark:bg-gray-900/90 p-6 rounded-xl shadow-lg backdrop-blur border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+          <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-gray-600 dark:text-gray-300">My Tickets</p>
+          <p class="text-sm text-gray-900 dark:text-white">View my requests</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Status -->
+    <div class="bg-white/90 dark:bg-gray-900/90 p-6 rounded-xl shadow-lg backdrop-blur border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mr-3">
+          <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-gray-600 dark:text-gray-300">System Status</p>
+          <p class="text-sm text-gray-900 dark:text-white">Check services</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help Resources -->
+    <div class="bg-white/90 dark:bg-gray-900/90 p-6 rounded-xl shadow-lg backdrop-blur border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mr-3">
+          <svg class="w-4 h-4 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs font-medium text-gray-600 dark:text-gray-300">Help Resources</p>
+          <p class="text-sm text-gray-900 dark:text-white">Self-service guides</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- System Status Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- System Status -->
+    <div class="bg-white/90 dark:bg-gray-900/90 rounded-xl shadow-lg backdrop-blur border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">System Status</h2>
+      <div class="space-y-3">
+        {% for service in system_status %}
+        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div class="flex items-center">
+            <div class="w-3 h-3 rounded-full mr-3 {% if service.status == 'Operational' %}bg-green-500{% elif service.status == 'Degraded' %}bg-yellow-500{% else %}bg-red-500{% endif %}"></div>
+            <span class="text-sm font-medium text-gray-900 dark:text-white">{{ service.service }}</span>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-medium {% if service.status == 'Operational' %}text-green-600 dark:text-green-400{% elif service.status == 'Degraded' %}text-yellow-600 dark:text-yellow-400{% else %}text-red-600 dark:text-red-400{% endif %}">
+              {{ service.status }}
+            </span>
+            <p class="text-xs text-gray-500 dark:text-gray-400">{{ service.uptime }} uptime</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Recent IT Tickets -->
+    <div class="bg-white/90 dark:bg-gray-900/90 rounded-xl shadow-lg backdrop-blur border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Recent IT Issues</h2>
+      <div class="space-y-3">
+        {% for ticket in tickets[:5] %}
+        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+          <div class="flex-1">
+            <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ ticket.title }}</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400">{{ ticket.description[:50] }}...</p>
+          </div>
+          <div class="text-right">
+            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {% if ticket.status == 'open' %}bg-yellow-100 text-yellow-800{% elif ticket.status == 'resolved' %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+              {{ ticket.status|title }}
+            </span>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ ticket.date }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Help Section -->
+  <div class="bg-white/90 dark:bg-gray-900/90 rounded-xl shadow-lg backdrop-blur border border-gray-200 dark:border-gray-700 p-6">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Quick Help</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+        <h3 class="font-medium text-blue-900 dark:text-blue-100 mb-2">Password Reset</h3>
+        <p class="text-sm text-blue-700 dark:text-blue-300">Forgot your password? Contact IT support for assistance.</p>
+      </div>
+      <div class="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+        <h3 class="font-medium text-green-900 dark:text-green-100 mb-2">VPN Access</h3>
+        <p class="text-sm text-green-700 dark:text-green-300">Having trouble connecting to VPN? Check your credentials.</p>
+      </div>
+      <div class="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+        <h3 class="font-medium text-purple-900 dark:text-purple-100 mb-2">Software Issues</h3>
+        <p class="text-sm text-purple-700 dark:text-purple-300">Software not working? Submit a ticket for technical support.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.btn-primary {
+  @apply inline-flex items-center px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center px-4 py-2 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition;
+}
+
+.btn-success {
+  @apply inline-flex items-center px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition;
+}
+</style>
+{% endblock %} 
