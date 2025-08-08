@@ -1695,18 +1695,22 @@ def edit_employee(employee_id):
 @login_required
 def update_timeoff_status(timeoff_id):
     if session.get("role") not in ["admin", "it", "hr"]:
-        flash("Access denied. Admin privileges required.", "error")
-        return redirect(url_for("dashboard"))
+        return jsonify({"success": False, "message": "Access denied. Admin privileges required."})
     
     timeoff_item = next((t for t in timeoff_requests if t["id"] == timeoff_id), None)
     if not timeoff_item:
-        flash("Time off request not found.", "error")
-        return redirect(url_for("admin_timeoff"))
+        return jsonify({"success": False, "message": "Time off request not found."})
     
-    new_status = request.form.get("status")
+    # Handle both form data and JSON
+    if request.is_json:
+        data = request.get_json()
+        new_status = data.get("status")
+    else:
+        new_status = request.form.get("status")
+    
     if new_status in ["approved", "rejected", "pending"]:
         timeoff_item["status"] = new_status
-        timeoff_item["admin_comment"] = request.form.get("admin_comment", "")
+        timeoff_item["admin_comment"] = request.form.get("admin_comment", "") if not request.is_json else data.get("admin_comment", "")
         timeoff_item["processed_by"] = session["user"]
         timeoff_item["processed_date"] = datetime.now().strftime("%Y-%m-%d %H:%M")
         
@@ -1714,27 +1718,31 @@ def update_timeoff_status(timeoff_id):
         add_notification(timeoff_item["employee_email"], 
                         f"Your time off request has been {new_status}: {timeoff_item['reason']}")
         
-        flash(f"Time off request {new_status}.", "success")
+        return jsonify({"success": True, "message": f"Time off request {new_status}."})
     
-    return redirect(url_for("admin_timeoff"))
+    return jsonify({"success": False, "message": "Invalid status."})
 
 # Update leave status
 @app.route("/admin/update-leave-status/<int:leave_id>", methods=["POST"])
 @login_required
 def update_leave_status(leave_id):
     if session.get("role") not in ["admin", "it", "hr"]:
-        flash("Access denied. Admin privileges required.", "error")
-        return redirect(url_for("dashboard"))
+        return jsonify({"success": False, "message": "Access denied. Admin privileges required."})
     
     leave_item = next((l for l in leave_requests if l["id"] == leave_id), None)
     if not leave_item:
-        flash("Leave request not found.", "error")
-        return redirect(url_for("admin_leave"))
+        return jsonify({"success": False, "message": "Leave request not found."})
     
-    new_status = request.form.get("status")
+    # Handle both form data and JSON
+    if request.is_json:
+        data = request.get_json()
+        new_status = data.get("status")
+    else:
+        new_status = request.form.get("status")
+    
     if new_status in ["approved", "rejected", "pending"]:
         leave_item["status"] = new_status
-        leave_item["admin_comment"] = request.form.get("admin_comment", "")
+        leave_item["admin_comment"] = request.form.get("admin_comment", "") if not request.is_json else data.get("admin_comment", "")
         leave_item["processed_by"] = session["user"]
         leave_item["processed_date"] = datetime.now().strftime("%Y-%m-%d %H:%M")
         
@@ -1745,9 +1753,9 @@ def update_leave_status(leave_id):
             add_notification(employee["email"], 
                             f"Your leave request has been {new_status}: {leave_item['leave_type']}")
         
-        flash(f"Leave request {new_status}.", "success")
+        return jsonify({"success": True, "message": f"Leave request {new_status}."})
     
-    return redirect(url_for("admin_leave"))
+    return jsonify({"success": False, "message": "Invalid status."})
 
 # Update application status
 @app.route("/admin/update-application-status/<int:app_id>", methods=["POST"])
