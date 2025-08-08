@@ -1015,8 +1015,12 @@ def home():
 @app.route("/it-portal")
 @login_required
 def it_portal():
-    """IT Portal access - dedicated IT interface"""
-    # Allow all logged-in users to access IT portal
+    """IT Portal access - dedicated IT interface for Admin/IT/HR"""
+    # Only allow admin, it, hr roles to access this route
+    if session.get("role") not in ["admin", "it", "hr"]:
+        flash("Access denied. Admin privileges required.", "error")
+        return redirect(url_for("employee_dashboard"))
+    
     # Get IT-specific data - handle both old and new ticket formats
     it_tickets = []
     for t in tickets:
@@ -1041,23 +1045,54 @@ def it_portal():
         {"service": "Database Server", "status": "Operational", "uptime": "99.9%"}
     ]
     
-    # Use different templates based on user role
-    if session.get("role") == "employee":
-        # Employee IT Portal - use employee layout
-        return render_template("employee_portal/it_portal.html", 
-                            tickets=it_tickets, 
-                            system_status=system_status,
-                            total_tickets=len(it_tickets),
-                            open_tickets=len([t for t in it_tickets if t.get("status") == "open"]),
-                            resolved_tickets=len([t for t in it_tickets if t.get("status") == "resolved"]))
-    else:
-        # Admin/IT/HR IT Portal - use admin layout
-        return render_template("it_portal.html", 
-                            tickets=it_tickets, 
-                            system_status=system_status,
-                            total_tickets=len(it_tickets),
-                            open_tickets=len([t for t in it_tickets if t.get("status") == "open"]),
-                            resolved_tickets=len([t for t in it_tickets if t.get("status") == "resolved"]))
+    # Admin/IT/HR IT Portal - use admin layout
+    return render_template("it_portal.html", 
+                        tickets=it_tickets, 
+                        system_status=system_status,
+                        total_tickets=len(it_tickets),
+                        open_tickets=len([t for t in it_tickets if t.get("status") == "open"]),
+                        resolved_tickets=len([t for t in it_tickets if t.get("status") == "resolved"]))
+
+@app.route("/employee/it-portal")
+@login_required
+def employee_it_portal():
+    """Employee IT Portal access - dedicated IT interface for employees"""
+    # Only allow employee role to access this route
+    if session.get("role") != "employee":
+        flash("Access denied. Employee privileges required.", "error")
+        return redirect(url_for("admin_dashboard"))
+    
+    # Get IT-specific data - handle both old and new ticket formats
+    it_tickets = []
+    for t in tickets:
+        if isinstance(t, dict):
+            if t.get("category") == "IT" or "IT" in t.get("title", "") or "printer" in t.get("title", "").lower() or "vpn" in t.get("title", "").lower():
+                it_tickets.append(t)
+    
+    # If no IT tickets found, create some sample ones
+    if not it_tickets:
+        it_tickets = [
+            {"id": 1, "title": "Printer not connecting", "priority": "high", "status": "open", "date": "2025-08-04", "description": "Printer shows offline status"},
+            {"id": 2, "title": "VPN Login Failure", "priority": "medium", "status": "pending", "date": "2025-08-04", "description": "Cannot connect to VPN"},
+            {"id": 3, "title": "Email Server Slow", "priority": "low", "status": "resolved", "date": "2025-08-03", "description": "Email response time improved"}
+        ]
+    
+    system_status = [
+        {"service": "Email Server", "status": "Operational", "uptime": "99.9%"},
+        {"service": "VPN Gateway", "status": "Operational", "uptime": "99.8%"},
+        {"service": "Printer Network", "status": "Degraded", "uptime": "85.2%"},
+        {"service": "Remote Desktop", "status": "Down", "uptime": "0%"},
+        {"service": "File Server", "status": "Operational", "uptime": "99.7%"},
+        {"service": "Database Server", "status": "Operational", "uptime": "99.9%"}
+    ]
+    
+    # Employee IT Portal - use employee layout
+    return render_template("employee_portal/it_portal.html", 
+                        tickets=it_tickets, 
+                        system_status=system_status,
+                        total_tickets=len(it_tickets),
+                        open_tickets=len([t for t in it_tickets if t.get("status") == "open"]),
+                        resolved_tickets=len([t for t in it_tickets if t.get("status") == "resolved"]))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
