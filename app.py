@@ -103,7 +103,7 @@ def it_required(f):
             return redirect(url_for("login"))
         if session.get("role") not in ["admin", "it", "employee"]:
             flash("Access denied. IT privileges required.", "error")
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("admin_dashboard"))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -125,7 +125,7 @@ def employee_required(f):
             return redirect(url_for("login"))
         if session.get("role") not in ["admin", "it", "hr", "employee"]:
             flash("Access denied. Employee privileges required.", "error")
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("admin_dashboard"))
         return f(*args, **kwargs)
     return decorated_function
 
