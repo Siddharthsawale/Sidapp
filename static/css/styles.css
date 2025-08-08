@@ -1,0 +1,600 @@
+/* Enhanced CSS for better aesthetics - LSU Color Scheme with Full Dark Mode Support */
+:root {
+    --primary-color: #461D7C; /* LSU Purple */
+    --secondary-color: #FDBB30; /* LSU Gold */
+    --accent-color: #FDBB30; /* LSU Gold as accent */
+    --success-color: #059669; /* Green for success states */
+    --danger-color: #DC2626; /* Red for error states */
+    --warning-color: #F59E0B; /* Orange for warnings */
+    --info-color: #3B82F6; /* Blue for info */
+    --light-bg: #F8FAFC; /* Subtle off-white */
+    --dark-bg: #2D1B4E; /* Darker LSU Purple for dark backgrounds */
+    --border-radius: 0.5rem; /* Smaller, more minimalistic */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    --hover-bg: #F3F4F6; /* Subtle gray hover */
+    --text-dark: #1F2937; /* Darker text for better contrast */
+    --text-light: #F9FAFB; /* Clean white for text on dark backgrounds */
+    --border-color: #D1D5DB; /* Subtle borders */
+    
+    /* Dark mode variables */
+    --dark-card-bg: #374151; /* Gray-700 for cards in dark mode */
+    --dark-surface-bg: #1F2937; /* Gray-800 for surfaces in dark mode */
+    --dark-text-primary: #F9FAFB; /* White text in dark mode */
+    --dark-text-secondary: #D1D5DB; /* Gray-300 for secondary text in dark mode */
+    --dark-border: #4B5563; /* Gray-600 for borders in dark mode */
+}
+
+/* Dark mode root variables */
+.dark {
+    --primary-bg: var(--dark-bg);
+    --card-bg: var(--dark-card-bg);
+    --surface-bg: var(--dark-surface-bg);
+    --text-primary: var(--dark-text-primary);
+    --text-secondary: var(--dark-text-secondary);
+    --border-primary: var(--dark-border);
+}
+
+/* Light mode root variables */
+:root:not(.dark) {
+    --primary-bg: var(--light-bg);
+    --card-bg: #FFFFFF;
+    --surface-bg: #F8FAFC;
+    --text-primary: var(--text-dark);
+    --text-secondary: #6B7280;
+    --border-primary: var(--border-color);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark body {
+    background-color: var(--dark-bg);
+    color: var(--dark-text-primary);
+}
+
+/* Enhanced button styles with dark mode support */
+.btn-primary {
+    background: var(--primary-color);
+    color: var(--text-light);
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary:hover {
+    background: #3A1A5E; /* Darker LSU Purple for hover */
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+    color: var(--text-light);
+}
+
+.btn-secondary {
+    background: var(--secondary-color);
+    color: var(--text-dark);
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-secondary:hover {
+    background: #E6A91A; /* Darker LSU Gold for hover */
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+}
+
+.btn-success {
+    background: var(--success-color);
+    color: var(--text-light);
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-success:hover {
+    background: #047857;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+    color: var(--text-light);
+}
+
+.btn-warning {
+    background: var(--warning-color);
+    color: var(--text-dark);
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-warning:hover {
+    background: #D97706;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    color: var(--text-light);
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-danger:hover {
+    background: #B91C1C;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+    color: var(--text-light);
+}
+
+/* Enhanced form styles with dark mode support */
+.form-input {
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(70, 29, 124, 0.1);
+}
+
+.dark .form-input {
+    background: var(--dark-card-bg);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.dark .form-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(70, 29, 124, 0.2);
+}
+
+.form-select {
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(70, 29, 124, 0.1);
+}
+
+.dark .form-select {
+    background: var(--dark-card-bg);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+/* Enhanced card styles with proper dark mode support */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.dark .card {
+    background: var(--dark-card-bg);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.card-hover:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+/* Enhanced gradient styles with dark mode support */
+.gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color), #3A1A5E);
+    color: var(--text-light);
+}
+
+.gradient-secondary {
+    background: linear-gradient(135deg, var(--secondary-color), #E6A91A);
+    color: var(--text-dark);
+}
+
+.gradient-warning {
+    background: linear-gradient(135deg, var(--accent-color), #E6A91A);
+    color: var(--text-dark);
+}
+
+/* Enhanced table styles with dark mode support */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.dark .table {
+    background: var(--dark-card-bg);
+    color: var(--dark-text-primary);
+}
+
+.table th {
+    background: var(--primary-color);
+    color: var(--text-light);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-primary);
+    color: var(--text-primary);
+}
+
+.dark .table td {
+    border-bottom-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.table tbody tr:hover {
+    background: var(--surface-bg);
+}
+
+.dark .table tbody tr:hover {
+    background: var(--dark-surface-bg);
+}
+
+/* Enhanced badge styles with dark mode support */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-primary {
+    background: rgba(70, 29, 124, 0.1);
+    color: var(--primary-color);
+    border: 1px solid rgba(70, 29, 124, 0.2);
+}
+
+.dark .badge-primary {
+    background: rgba(70, 29, 124, 0.2);
+    color: #A78BFA;
+    border-color: rgba(70, 29, 124, 0.3);
+}
+
+.badge-success {
+    background: rgba(5, 150, 105, 0.1);
+    color: var(--success-color);
+    border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+.dark .badge-success {
+    background: rgba(5, 150, 105, 0.2);
+    color: #34D399;
+    border-color: rgba(5, 150, 105, 0.3);
+}
+
+.badge-warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.dark .badge-warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: #FBBF24;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.badge-danger {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--danger-color);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.dark .badge-danger {
+    background: rgba(220, 38, 38, 0.2);
+    color: #F87171;
+    border-color: rgba(220, 38, 38, 0.3);
+}
+
+/* Utility classes for consistent spacing and animation */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Enhanced responsive utilities */
+.responsive-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Dark mode specific overrides for better visibility */
+.dark .text-gray-600 {
+    color: #D1D5DB !important;
+}
+
+.dark .text-gray-500 {
+    color: #9CA3AF !important;
+}
+
+.dark .text-gray-400 {
+    color: #6B7280 !important;
+}
+
+.dark .bg-white {
+    background-color: var(--dark-card-bg) !important;
+}
+
+.dark .bg-gray-50 {
+    background-color: var(--dark-surface-bg) !important;
+}
+
+.dark .bg-gray-100 {
+    background-color: var(--dark-card-bg) !important;
+}
+
+.dark .border-gray-200 {
+    border-color: var(--dark-border) !important;
+}
+
+.dark .border-gray-300 {
+    border-color: var(--dark-border) !important;
+}
+
+/* LSU theme specific classes */
+.lsu-purple {
+    color: var(--primary-color);
+}
+
+.lsu-gold {
+    color: var(--secondary-color);
+}
+
+.bg-lsu-purple {
+    background-color: var(--primary-color);
+}
+
+.bg-lsu-gold {
+    background-color: var(--secondary-color);
+}
+
+/* Enhanced focus styles for accessibility */
+*:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.dark *:focus {
+    outline-color: #A78BFA;
+}
+
+/* Animation utilities */
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-in {
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scrollbar styling for dark mode */
+.dark ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: var(--dark-surface-bg);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: var(--dark-border);
+    border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #6B7280;
+}
+
+/* Universal dark mode improvements */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: var(--dark-text-primary);
+}
+
+.dark p, .dark span, .dark div {
+    color: var(--dark-text-primary);
+}
+
+.dark .text-gray-700 {
+    color: #D1D5DB !important;
+}
+
+.dark .text-gray-800 {
+    color: #F3F4F6 !important;
+}
+
+.dark .text-gray-900 {
+    color: #F9FAFB !important;
+}
+
+/* Card and surface improvements */
+.dark .bg-white\/90 {
+    background-color: rgba(55, 65, 81, 0.9) !important;
+}
+
+.dark .bg-white\/80 {
+    background-color: rgba(55, 65, 81, 0.8) !important;
+}
+
+.dark .bg-gray-50 {
+    background-color: #374151 !important;
+}
+
+/* Form improvements */
+.dark input, .dark textarea, .dark select {
+    background-color: var(--dark-card-bg);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.dark input::placeholder, .dark textarea::placeholder {
+    color: #9CA3AF;
+}
+
+/* Navigation improvements */
+.dark .backdrop-blur {
+    backdrop-filter: blur(16px);
+}
+
+/* Button hover improvements */
+.dark .hover\:bg-gray-50:hover {
+    background-color: #4B5563 !important;
+}
+
+.dark .hover\:bg-gray-100:hover {
+    background-color: #4B5563 !important;
+}
+
+/* Text selection improvements */
+.dark ::selection {
+    background-color: rgba(70, 29, 124, 0.3);
+    color: var(--dark-text-primary);
+}
+
+/* Link improvements */
+.dark a:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-warning):not(.btn-danger) {
+    color: #A78BFA;
+}
+
+.dark a:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-warning):not(.btn-danger):hover {
+    color: #C4B5FD;
+}
+
+/* Icon improvements */
+.dark svg {
+    color: inherit;
+}
+
+/* Shadow improvements for dark mode */
+.dark .shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dark .shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+.dark .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+.dark .shadow-xl {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+
+
+

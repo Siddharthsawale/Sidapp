@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% from 'icons.html' import robot, chat, computer %}
+
+<!-- Hero Section -->
+<div class="bg-primary rounded-2xl shadow-lg overflow-hidden">
+  <div class="px-8 py-12">
+    <div class="flex items-center gap-6">
+      <div class="flex-shrink-0 text-white">
+        {{ robot() }}
+      </div>
+      <div class="flex-1">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-1">Support & Help Center</h1>
+        <p class="text-lg text-white/90">How can we help? Submit a ticket for HR or IT issues.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <!-- Submit Ticket -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+    <div class="flex items-center space-x-4 mb-6">
+      <div class="text-primary">
+        {{ computer() }}
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white">Submit a Ticket</h2>
+        <p class="text-gray-600 dark:text-gray-400">Create a new support ticket</p>
+      </div>
+    </div>
+    <a href="/submit-ticket" class="block w-full bg-primary hover:bg-primary-dark text-white text-center py-2 rounded-lg transition">
+      Create Ticket
+    </a>
+  </div>
+
+  <!-- View Tickets -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+    <div class="flex items-center space-x-4 mb-6">
+      <div class="text-primary">
+        {{ computer() }}
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white">View Tickets</h2>
+        <p class="text-gray-600 dark:text-gray-400">Check your existing tickets</p>
+      </div>
+    </div>
+    <a href="/tickets" class="block w-full bg-primary hover:bg-primary-dark text-white text-center py-2 rounded-lg transition">
+      View Tickets
+    </a>
+  </div>
+
+  <!-- AI Assistant -->
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition">
+    <div class="flex items-center space-x-4 mb-6">
+      <div class="text-primary">
+        {{ chat() }}
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white">AI Assistant</h2>
+        <p class="text-gray-600 dark:text-gray-400">Get instant help from our AI</p>
+      </div>
+    </div>
+    <a href="/ai/rag" class="block w-full bg-primary hover:bg-primary-dark text-white text-center py-2 rounded-lg transition">
+      Ask AI
+    </a>
+  </div>
+</div>
+
+<!-- FAQs -->
+<div class="mt-12">
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Frequently Asked Questions</h2>
+  <div class="space-y-4">
+    {% for faq in faqs %}
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ faq.question }}</h3>
+      <p class="text-gray-600 dark:text-gray-400">{{ faq.answer }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %} 

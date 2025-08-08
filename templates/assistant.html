@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% from 'icons.html' import robot, chat %}
+
+<!-- Hero Section -->
+<div class="bg-primary rounded-2xl shadow-lg overflow-hidden">
+  <div class="px-8 py-12">
+    <div class="flex items-center gap-6">
+      <div class="flex-shrink-0 text-white">
+        {{ robot() }}
+      </div>
+      <div class="flex-1">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-2">AI IT Assistant</h1>
+        <p class="text-lg text-white/90">Ask the assistant any IT-related question and get an instant answer</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI Assistant Interface -->
+<div class="max-w-3xl mx-auto">
+  <!-- Assistant Info -->
+  <div class="mt-12 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+    <div class="flex items-center space-x-4">
+      <div class="text-primary">
+        {{ robot() }}
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white">IT Assistant</h2>
+        <p class="text-gray-600 dark:text-gray-400">Powered by AI to help with IT support</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Interface -->
+  <form id="chat-form" class="mt-8 space-y-4">
+    <div class="flex gap-4">
+      <input type="text" id="user-input" placeholder="Ask me anything about IT support..." 
+             class="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent">
+      <button type="submit" class="px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-xl transition flex items-center">
+        <span class="mr-2">{{ chat() }}</span> Ask
+      </button>
+    </div>
+  </form>
+
+  <!-- Chat History -->
+  <div id="chat-history" class="mt-8 space-y-6">
+    <!-- Messages will be added here dynamically -->
+  </div>
+
+  <!-- Message Template -->
+  <template id="message-template">
+    <div class="flex items-start gap-4">
+      <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+        {{ robot() }}
+      </div>
+      <div class="flex-1">
+        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Assistant Response</h3>
+        <div class="text-gray-700 dark:text-gray-300 leading-relaxed message-content"></div>
+      </div>
+    </div>
+  </template>
+</div>
+
+<script>
+document.getElementById('chat-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const input = document.getElementById('user-input');
+  const question = input.value.trim();
+  
+  if (!question) return;
+  
+  // Clear input
+  input.value = '';
+  
+  try {
+    // Add user message
+    addMessage('You', question);
+    
+    // Get AI response
+    const response = await fetch('/api/ai-assistant', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    });
+    
+    const data = await response.json();
+    
+    // Add AI response
+    addMessage('Assistant', data.answer);
+  } catch (error) {
+    console.error('Error:', error);
+    addMessage('Assistant', 'Sorry, I encountered an error. Please try again.');
+  }
+});
+
+function addMessage(sender, content) {
+  const history = document.getElementById('chat-history');
+  const template = document.getElementById('message-template');
+  const message = template.content.cloneNode(true);
+  
+  message.querySelector('.message-content').textContent = content;
+  
+  history.appendChild(message);
+  history.scrollTop = history.scrollHeight;
+}
+</script>
+
+{% endblock %}

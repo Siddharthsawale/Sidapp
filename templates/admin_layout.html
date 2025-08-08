@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: { light: '#7C3A9C', DEFAULT: '#461D7C', dark: '#3A1A5E' },
+            accent: '#FDBB30',
+            secondary: '#FDBB30',
+            warning: '#F59E0B',
+            success: '#059669',
+            danger: '#DC2626',
+            info: '#3B82F6',
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    html { scroll-behavior: smooth; }
+    .transition-bg { transition: background 0.3s, color 0.3s; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-950 dark:to-blue-900 text-gray-900 dark:text-gray-100 min-h-screen font-sans transition-bg">
+
+  {% from 'icons.html' import user, computer, chat, robot, star, chart, bell, target, lightbulb %}
+
+  <!-- Navigation Bar -->
+  <nav class="backdrop-blur bg-white/80 dark:bg-gray-900/80 shadow-lg sticky top-0 z-50 transition-bg w-full">
+    <div class="w-full px-12">
+      <div class="flex justify-between items-center h-16 w-full">
+        <!-- Left: Main Navigation -->
+        <div class="flex-1 overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-primary/40 scrollbar-track-transparent">
+          <div class="flex items-center space-x-12 min-w-max">
+            <a href="/admin/dashboard" class="flex items-center text-primary font-extrabold text-2xl tracking-tight hover:text-accent transition mr-12">
+              <span class="mr-2">{{ target() }}</span> Admin Portal
+            </a>
+            <a href="/admin/dashboard" class="inline text-base font-medium hover:text-accent transition">Dashboard</a>
+            <a href="/admin/jobs" class="inline text-base font-medium hover:text-accent transition">Jobs</a>
+            <a href="/admin/knowledge" class="inline text-base font-medium hover:text-accent transition">Knowledge</a>
+            <a href="/admin/learning" class="inline text-base font-medium hover:text-accent transition">Learning</a>
+            <a href="/admin/onboarding" class="inline text-base font-medium hover:text-accent transition">Onboarding</a>
+            <a href="/admin/timesheets" class="inline text-base font-medium hover:text-accent transition">Timesheets</a>
+            <a href="/admin/asset-management" class="inline text-base font-medium hover:text-accent transition">Devices</a>
+            <a href="/admin/ai-tools" class="inline text-base font-medium hover:text-accent transition flex items-center">
+              <span class="mr-1">{{ robot() }}</span> AI Tools
+            </a>
+            <a href="/it-portal" class="inline text-base font-medium hover:text-accent transition flex items-center">
+              <span class="mr-1">{{ computer() }}</span> IT Portal
+            </a>
+          </div>
+        </div>
+        <!-- Right: Utility/External/Profile -->
+        <div class="flex items-center space-x-6 ml-8">
+          <a href="/notifications" class="relative rounded-full p-2 hover:bg-primary/10 dark:hover:bg-primary/20 transition">
+            {{ bell() }}
+            <span id="notification-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+          </a>
+          <button id="theme-toggle" aria-label="Toggle Theme" class="rounded-full p-2 hover:bg-primary/10 dark:hover:bg-primary/20 transition">
+            <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m8.66-13.66l-.71.71M4.05 19.07l-.71.71M21 12h-1M4 12H3m16.66 5.66l-.71-.71M4.05 4.93l-.71-.71M12 5a7 7 0 100 14 7 7 0 000-14z"></path></svg>
+            <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"></path></svg>
+          </button>
+          <a href="/admin/profile" class="flex items-center text-sm font-medium hover:text-accent transition">
+            <span class="mr-1">{{ user() }}</span> Profile
+          </a>
+          <a href="/admin/logout" class="flex items-center text-sm font-medium hover:text-accent transition">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="p-4 sm:p-8 w-full">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="space-y-2 mb-4">
+          {% for category, message in messages %}
+            <div class="p-3 rounded-lg shadow text-sm font-medium animate-fade-in
+              {% if category == 'success' %}bg-green-500/90 text-white
+              {% elif category == 'error' %}bg-red-500/90 text-white
+              {% elif category == 'info' %}bg-blue-500/90 text-white
+              {% else %}bg-gray-700/80 text-white{% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    // Theme toggle logic with localStorage
+    const themeToggle = document.getElementById('theme-toggle');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    
+    function setTheme(dark) {
+      if (dark) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        lightIcon.classList.add('hidden');
+        darkIcon.classList.remove('hidden');
+      }
+    }
+    
+    // Check for saved theme preference or system preference
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      setTheme(true);
+    } else {
+      setTheme(false);
+    }
+    
+    // Toggle theme on button click
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(!isDark);
+    });
+  </script>
+</body>
+</html> 
