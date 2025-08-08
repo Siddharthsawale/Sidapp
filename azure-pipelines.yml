@@ -1,0 +1,122 @@
+# Azure DevOps Build Pipeline for Flask Employee Portal
+# This file should be placed in your repository root
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  python.version: '3.11'
+  projectName: 'nexiqon-portal'
+
+stages:
+- stage: Build
+  displayName: 'Build and Test'
+  jobs:
+  - job: BuildAndTest
+    displayName: 'Build and Test Application'
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python $(python.version)'
+      inputs:
+        versionSpec: '$(python.version)'
+        addToPath: true
+
+    - script: |
+        python -m pip install --upgrade pip
+      displayName: 'Upgrade pip'
+
+    - script: |
+        pip install -r requirements.txt
+      displayName: 'Install dependencies'
+
+    - script: |
+        pip install pytest pytest-cov flake8
+      displayName: 'Install test dependencies'
+
+    - script: |
+        python -m flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      displayName: 'Lint with flake8'
+
+    - script: |
+        python -m pytest tests/ --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml
+      displayName: 'Test with pytest'
+      continueOnError: true
+
+    - task: PublishTestResults@2
+      displayName: 'Publish test results'
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/test-results.xml'
+        mergeTestResults: true
+        testRunTitle: 'Python $(python.version)'
+      condition: succeededOrFailed()
+
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage'
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '**/coverage.xml'
+        reportDirectory: '**/htmlcov'
+      condition: succeededOrFailed()
+
+    - script: |
+        python -c "import app; print('App imports successfully')"
+      displayName: 'Verify app imports'
+
+    - task: ArchiveFiles@2
+      displayName: 'Archive application files'
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(projectName)-$(Build.BuildId).zip'
+        replaceExistingArchive: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish build artifacts'
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: 'drop'
+
+- stage: DeployToStaging
+  displayName: 'Deploy to Staging'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: DeployToStaging
+    displayName: 'Deploy to Staging Environment'
+    environment: 'staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            displayName: 'Deploy to Staging Web App'
+            inputs:
+              azureSubscription: 'Your-Azure-Subscription'
+              appName: 'nexiqon-portal-staging'
+              package: '$(Pipeline.Workspace)/drop/$(projectName)-$(Build.BuildId).zip'
+              appType: 'webApp'
+
+- stage: DeployToProduction
+  displayName: 'Deploy to Production'
+  dependsOn: DeployToStaging
+  condition: succeeded()
+  jobs:
+  - deployment: DeployToProduction
+    displayName: 'Deploy to Production Environment'
+    environment: 'production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            displayName: 'Deploy to Production Web App'
+            inputs:
+              azureSubscription: 'Your-Azure-Subscription'
+              appName: 'nexiqon-portal-jan2025'
+              package: '$(Pipeline.Workspace)/drop/$(projectName)-$(Build.BuildId).zip'
+              appType: 'webApp' 
