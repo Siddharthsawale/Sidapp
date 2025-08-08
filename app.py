@@ -1852,9 +1852,7 @@ def view_tickets():
 @app.route("/submit-ticket", methods=["GET", "POST"])
 @login_required
 def submit_ticket():
-    if session.get("role") not in ["admin", "it", "hr"]:
-        flash("Access denied. Admin privileges required.", "error")
-        return redirect(url_for("dashboard"))
+    # Allow all logged-in users to submit tickets
     
     if request.method == "POST":
         title = request.form["title"]
@@ -5202,7 +5200,7 @@ def admin_support_management():
 @app.route('/admin/hr-management')
 @login_required
 def admin_hr_management():
-    if "user" not in session or session.get('role') != 'admin':
+    if session.get("role") not in ["admin", "it", "hr"]:
         flash("Access denied. Admin privileges required.", "error")
         return redirect(url_for("dashboard"))
     
@@ -5227,7 +5225,7 @@ def admin_hr_management():
 @app.route('/admin/recruitment')
 @login_required
 def admin_recruitment():
-    if "user" not in session or session.get('role') != 'admin':
+    if session.get("role") not in ["admin", "it", "hr"]:
         flash("Access denied. Admin privileges required.", "error")
         return redirect(url_for("dashboard"))
     
@@ -5244,7 +5242,7 @@ def admin_recruitment():
 @app.route('/admin/knowledge-learning')
 @login_required
 def admin_knowledge_learning():
-    if "user" not in session or session.get('role') != 'admin':
+    if session.get("role") not in ["admin", "it", "hr"]:
         flash("Access denied. Admin privileges required.", "error")
         return redirect(url_for("dashboard"))
     
@@ -5282,7 +5280,7 @@ def admin_employee_development():
 @app.route('/admin/asset-management')
 @login_required
 def admin_asset_management():
-    if "user" not in session or session.get('role') != 'admin':
+    if session.get("role") not in ["admin", "it"]:
         flash("Access denied. Admin privileges required.", "error")
         return redirect(url_for("dashboard"))
     
