@@ -90,7 +90,7 @@ def admin_required(f):
     def decorated_function(*args, **kwargs):
         if "user" not in session:
             return redirect(url_for("login"))
-        if session.get("role") != "admin":
+        if session.get("role") not in ["admin", "it"]:
             flash("Access denied. Admin privileges required.", "error")
             return redirect(url_for("dashboard"))
         return f(*args, **kwargs)
