@@ -1,0 +1,171 @@
+{% extends "admin_layout.html" %}
+{% block content %}
+<div class="space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-2">Leave Request Details</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400">Review and manage leave request</p>
+        </div>
+        <div class="mt-4 sm:mt-0">
+            <a href="{{ url_for('admin_leave') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition duration-200">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Leave Requests
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Employee Information -->
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Employee Information</h2>
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Employee Name</label>
+                        <p class="text-gray-900 dark:text-white">{{ leave_request.employee_name }}</p>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Email</label>
+                        <p class="text-gray-900 dark:text-white">{{ leave_request.employee_email }}</p>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Employee ID</label>
+                        <p class="text-gray-900 dark:text-white">{{ leave_request.employee_id }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leave Request Details -->
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Leave Details</h2>
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Leave Type</label>
+                        <p class="text-gray-900 dark:text-white">{{ leave_request.leave_type }}</p>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Start Date</label>
+                        <p class="text-gray-900 dark:text-white">{{ leave_request.start_date }}</p>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400">End Date</label>
+                        <p class="text-gray-900 dark:text-white">{{ leave_request.end_date }}</p>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-gray-600 dark:text-gray-400">Status</label>
+                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                            {% if leave_request.status == 'approved' %}bg-green-100 text-green-800 
+                            {% elif leave_request.status == 'pending' %}bg-yellow-100 text-yellow-800 
+                            {% elif leave_request.status == 'rejected' %}bg-red-100 text-red-800 
+                            {% else %}bg-gray-100 text-gray-800{% endif %}">
+                            {{ leave_request.status|title }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reason -->
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Reason for Leave</h3>
+            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <p class="text-gray-900 dark:text-white">{{ leave_request.reason }}</p>
+            </div>
+        </div>
+
+        <!-- Admin Actions -->
+        {% if leave_request.status == 'pending' %}
+        <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Admin Actions</h3>
+            <div class="flex space-x-4">
+                <button onclick="approveLeave({{ leave_request.id }})" 
+                        class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Approve
+                </button>
+                <button onclick="rejectLeave({{ leave_request.id }})" 
+                        class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    Reject
+                </button>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Admin Comments -->
+        {% if leave_request.admin_comment %}
+        <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Admin Comment</h3>
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                <p class="text-gray-900 dark:text-white">{{ leave_request.admin_comment }}</p>
+                {% if leave_request.processed_by %}
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                    Processed by: {{ leave_request.processed_by }} on {{ leave_request.processed_date }}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function approveLeave(requestId) {
+    if (confirm('Are you sure you want to approve this leave request?')) {
+        fetch(`/admin/update-leave-status/${requestId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status: 'approved'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating the request.');
+        });
+    }
+}
+
+function rejectLeave(requestId) {
+    if (confirm('Are you sure you want to reject this leave request?')) {
+        fetch(`/admin/update-leave-status/${requestId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status: 'rejected'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while updating the request.');
+        });
+    }
+}
+</script>
+{% endblock %} 

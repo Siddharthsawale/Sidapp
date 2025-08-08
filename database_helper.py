@@ -677,6 +677,27 @@ class DatabaseHelper:
         except Exception as e:
             print(f"Error marking notification read: {e}")
             return False
+
+    def get_leave_request_by_id(self, leave_id):
+        """Get leave request by ID"""
+        try:
+            connection = self.get_connection()
+            cursor = connection.cursor()
+            
+            cursor.execute("""
+                SELECT * FROM leave_requests 
+                WHERE id = %s
+            """, (leave_id,))
+            
+            columns = [column[0] for column in cursor.description]
+            row = cursor.fetchone()
+            
+            if row:
+                return dict(zip(columns, row))
+            return None
+        except Exception as e:
+            print(f"Error getting leave request by ID: {e}")
+            return None
     
     # Service Request Management
     def create_service_request(self, user_email, request_type, subject, description, priority='medium'):

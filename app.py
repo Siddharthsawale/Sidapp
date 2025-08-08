@@ -1438,6 +1438,22 @@ def admin_leave():
     
     return render_template('admin_leave.html', leave_requests=leave_requests)
 
+@app.route('/admin/leave/<int:leave_id>')
+@hr_required
+def admin_view_leave(leave_id):
+    if session.get("role") not in ["admin", "it", "hr"]:
+        flash("Access denied. Admin privileges required.", "error")
+        return redirect(url_for("dashboard"))
+    
+    # Get leave request from database
+    leave_request = db_helper.get_leave_request_by_id(leave_id)
+    
+    if not leave_request:
+        flash('Leave request not found!', 'error')
+        return redirect(url_for('admin_leave'))
+    
+    return render_template('admin_leave_detail.html', leave_request=leave_request)
+
 @app.route("/admin/applications")
 @hr_required
 def admin_applications():
