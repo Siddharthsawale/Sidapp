@@ -1,51 +1,34 @@
-# IT Portal with AI Integration
+# Sidapp
 
-## 🚀 Quick Start
+Flask Employee Portal with LSU colors, dark mode, and comprehensive features.
 
-**Run the application:**
-```bash
-python app.py
-```
+## 🚀 Features
 
-That's it! One command, one application.
+- **Employee Dashboard**: Timesheets, leave requests, benefits
+- **Admin Portal**: User management, ticket handling, analytics
+- **IT Portal**: Support ticket management
+- **Career Development**: Learning paths, skill assessments
+- **LSU Color Scheme**: Purple and Gold branding
+- **Dark Mode Support**: Automatic theme switching
 
-## 🌟 What's Included
+## 🏗️ CI/CD Pipeline
 
-This single application includes:
-- **IT Portal** with user/admin authentication
-- **ATS (Applicant Tracking System)** - Resume processing and matching
-- **RAG (AI Assistant)** - AI-powered knowledge base
-- **Employee Portal** - Employee-specific features
+- **GitHub Actions**: Automated testing and deployment
+- **Staging Environment**: Pre-production testing
+- **Production Deployment**: Safe, monitored releases
 
-## 🌐 Access Points
+## 🔧 Setup
 
-- **Main App**: http://localhost:5002
-- **ATS System**: http://localhost:5002/ai/ats
-- **RAG Assistant**: http://localhost:5002/ai/rag
-- **Employee Portal**: http://localhost:5002/employee/
+1. Clone the repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Configure environment variables
+4. Run: `python startup.py`
 
-## 🔐 Login Credentials
+## 📊 Environments
 
-**Regular User:**
-- Email: `user@example.com`
-- Password: `password123`
+- **Staging**: https://nexiqon-portal-staging.azurewebsites.net
+- **Production**: https://nexiqon-portal-jan2025.azurewebsites.net
 
-**Admin User:**
-- Email: `admin@example.com`
-- Password: `admin123`
+## 🎯 Latest Update
 
-## ⚙️ Setup
-
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. Run the application:
-   ```bash
-   python app.py
-   ```
-
-## 🎯 One Application, One Command
-
-**Only `app.py`** - Everything is integrated into this single file! # Sidapp
+Updated with comprehensive CI/CD pipeline and automated testing!
