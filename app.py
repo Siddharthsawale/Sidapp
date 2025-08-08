@@ -114,7 +114,7 @@ def hr_required(f):
             return redirect(url_for("login"))
         if session.get("role") not in ["admin", "hr"]:
             flash("Access denied. HR privileges required.", "error")
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("admin_dashboard"))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -1081,6 +1081,13 @@ def login():
 
 @app.route("/logout")
 def logout():
+    session.pop("user", None)
+    session.pop("role", None)
+    flash("Logged out.", "info")
+    return redirect(url_for("login"))
+
+@app.route("/admin/logout")
+def admin_logout():
     session.pop("user", None)
     session.pop("role", None)
     flash("Logged out.", "info")
@@ -4705,10 +4712,7 @@ def view_employee_knowledge_document(doc_id):
     
     return render_template('employee_portal/knowledge_detail.html', document=document)
 
-@app.route('/')
-@login_required
-def landing_page():
-    return render_template('landing.html')
+# Removed duplicate route - this was causing navigation issues
 
 # Induction Page Data Structures
 induction_categories = [
